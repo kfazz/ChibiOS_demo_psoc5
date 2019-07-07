@@ -312,100 +312,73 @@ void USBUART_Init(void)
     CyExitCriticalSection(enableInterrupts);
 #endif /* (CY_PSOC4) */
 
-    /* Configure interrupts from USB block. */
-#if (CY_PSOC4)
-    /* Configure hi_int: set handler and priority. */
-    CyIntSetPriority     (USBUART_INTR_HI_VECT_NUM,  USBUART_INTR_HI_PRIORITY);
-    (void) CyIntSetVector(USBUART_INTR_HI_VECT_NUM, &USBUART_INTR_HI_ISR);
-
-    /* Configure lo_int: set handler and priority. */
-    CyIntSetPriority     (USBUART_INTR_LO_VECT_NUM,  USBUART_INTR_LO_PRIORITY);
-    (void) CyIntSetVector(USBUART_INTR_LO_VECT_NUM, &USBUART_INTR_LO_ISR);
-
-    /* Configure med_int: set handler and priority (routed through DSI). */
-    CyIntSetPriority     (USBUART_INTR_MED_VECT_NUM,  USBUART_INTR_MED_PRIORITY);
-    (void) CyIntSetVector(USBUART_INTR_MED_VECT_NUM, &USBUART_INTR_MED_ISR);
-
-#else
     /* Set bus reset interrupt. */
     CyIntSetPriority(USBUART_BUS_RESET_VECT_NUM, USBUART_BUS_RESET_PRIOR);
-    (void) CyIntSetVector(USBUART_BUS_RESET_VECT_NUM,   &USBUART_BUS_RESET_ISR);
+//    (void) CyIntSetVector(USBUART_BUS_RESET_VECT_NUM,   &USBUART_BUS_RESET_ISR);
 
     /* Set Control Endpoint Interrupt. */
     CyIntSetPriority(USBUART_EP_0_VECT_NUM, USBUART_EP_0_PRIOR);
-    (void) CyIntSetVector(USBUART_EP_0_VECT_NUM,   &USBUART_EP_0_ISR);
+//    (void) CyIntSetVector(USBUART_EP_0_VECT_NUM,   &USBUART_EP_0_ISR);
 
     /* Set SOF interrupt. */
     #if (USBUART_SOF_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_SOF_VECT_NUM,  USBUART_SOF_PRIOR);
-        (void) CyIntSetVector(USBUART_SOF_VECT_NUM, &USBUART_SOF_ISR);
     #endif /* (USBUART_SOF_ISR_ACTIVE) */
 
     /* Set Data Endpoint 1 Interrupt. */
     #if (USBUART_EP1_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_1_VECT_NUM,  USBUART_EP_1_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_1_VECT_NUM,  &USBUART_EP_1_ISR);
     #endif /* (USBUART_EP1_ISR_ACTIVE) */
 
     /* Set Data Endpoint 2 Interrupt. */
     #if (USBUART_EP2_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_2_VECT_NUM,  USBUART_EP_2_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_2_VECT_NUM, &USBUART_EP_2_ISR);
     #endif /* (USBUART_EP2_ISR_ACTIVE) */
 
     /* Set Data Endpoint 3 Interrupt. */
     #if (USBUART_EP3_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_3_VECT_NUM,  USBUART_EP_3_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_3_VECT_NUM, &USBUART_EP_3_ISR);
     #endif /* (USBUART_EP3_ISR_ACTIVE) */
 
     /* Set Data Endpoint 4 Interrupt. */
     #if (USBUART_EP4_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_4_VECT_NUM,  USBUART_EP_4_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_4_VECT_NUM, &USBUART_EP_4_ISR);
     #endif /* (USBUART_EP4_ISR_ACTIVE) */
 
     /* Set Data Endpoint 5 Interrupt. */
     #if (USBUART_EP5_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_5_VECT_NUM,  USBUART_EP_5_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_5_VECT_NUM, &USBUART_EP_5_ISR);
     #endif /* (USBUART_EP5_ISR_ACTIVE) */
 
     /* Set Data Endpoint 6 Interrupt. */
     #if (USBUART_EP6_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_6_VECT_NUM,  USBUART_EP_6_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_6_VECT_NUM, &USBUART_EP_6_ISR);
     #endif /* (USBUART_EP6_ISR_ACTIVE) */
 
      /* Set Data Endpoint 7 Interrupt. */
     #if (USBUART_EP7_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_7_VECT_NUM,  USBUART_EP_7_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_7_VECT_NUM, &USBUART_EP_7_ISR);
     #endif /* (USBUART_EP7_ISR_ACTIVE) */
 
     /* Set Data Endpoint 8 Interrupt. */
     #if (USBUART_EP8_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_EP_8_VECT_NUM,  USBUART_EP_8_PRIOR);
-        (void) CyIntSetVector(USBUART_EP_8_VECT_NUM, &USBUART_EP_8_ISR);
     #endif /* (USBUART_EP8_ISR_ACTIVE) */
 
     /* Set ARB Interrupt. */
     #if (USBUART_EP_MANAGEMENT_DMA && USBUART_ARB_ISR_ACTIVE)
         CyIntSetPriority     (USBUART_ARB_VECT_NUM,  USBUART_ARB_PRIOR);
-        (void) CyIntSetVector(USBUART_ARB_VECT_NUM, &USBUART_ARB_ISR);
     #endif /* (USBUART_EP_MANAGEMENT_DMA && USBUART_ARB_ISR_ACTIVE) */
-#endif /* (CY_PSOC4) */
 
     /* Common: Configure GPIO interrupt for wakeup. */
 #if (USBUART_DP_ISR_ACTIVE)
     CyIntSetPriority     (USBUART_DP_INTC_VECT_NUM,  USBUART_DP_INTC_PRIORITY);
-    (void) CyIntSetVector(USBUART_DP_INTC_VECT_NUM, &USBUART_DP_ISR);
 #endif /* (USBUART_DP_ISR_ACTIVE) */
 
 #if (USBUART_EP_MANAGEMENT_DMA && CY_PSOC4)
     /* Initialize DMA channels. */
     USBUART_InitEpDma();
-#endif /* (USBUART_EP_MANAGEMENT_DMA && CY_PSOC4) */
+#endif
 }
 
 

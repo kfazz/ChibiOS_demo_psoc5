@@ -13,6 +13,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
+#include "cmparams.h"
+#include "ch.h"
 #include "USBUART_pvt.h"
 #include "cyapicallbacks.h"
 
@@ -91,7 +93,8 @@ volatile uint16 USBUART_transferByteCount;
 *
 *
 *******************************************************************************/
-CY_ISR(USBUART_EP_0_ISR)
+//CH_FAST_IRQ_HANDLER(USBUART_EP_0_ISR)
+CH_FAST_IRQ_HANDLER(USBUART_EP0_Handler)
 {
     uint8 tempReg;
     uint8 modifyReg;

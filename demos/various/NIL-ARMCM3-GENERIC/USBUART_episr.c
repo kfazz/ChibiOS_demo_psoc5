@@ -13,6 +13,7 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
+#include "ch.h"
 #include "USBUART_pvt.h"
 #include "USBUART_cydmac.h"
 #include "cyapicallbacks.h"
@@ -34,7 +35,7 @@
     *  Endpoint 1 Interrupt Service Routine
     *
     ******************************************************************************/
-    CY_ISR(USBUART_EP_1_ISR)
+   CH_FAST_IRQ_HANDLER(USBUART_EP1_Handler)
     {
 
     #ifdef USBUART_EP_1_ISR_ENTRY_CALLBACK
@@ -117,7 +118,7 @@
     *  Endpoint 2 Interrupt Service Routine.
     *
     *******************************************************************************/
-    CY_ISR(USBUART_EP_2_ISR)
+    CH_FAST_IRQ_HANDLER(USBUART_EP2_Handler)
     {
     #ifdef USBUART_EP_2_ISR_ENTRY_CALLBACK
         USBUART_EP_2_ISR_EntryCallback();
@@ -198,7 +199,8 @@
     *  Endpoint 3 Interrupt Service Routine.
     *
     *******************************************************************************/
-    CY_ISR(USBUART_EP_3_ISR)
+CH_FAST_IRQ_HANDLER(USBUART_EP3_Handler)
+//    CY_ISR(USBUART_EP_3_ISR)
     {
     #ifdef USBUART_EP_3_ISR_ENTRY_CALLBACK
         USBUART_EP_3_ISR_EntryCallback();
@@ -690,7 +692,7 @@
     *
     *
     *******************************************************************************/
-    CY_ISR(USBUART_SOF_ISR)
+CH_FAST_IRQ_HANDLER(USBUART_Sof_Handler)
     {
     #ifdef USBUART_SOF_ISR_ENTRY_CALLBACK
         USBUART_SOF_ISR_EntryCallback();
@@ -719,7 +721,7 @@
 *
 *
 *******************************************************************************/
-CY_ISR(USBUART_BUS_RESET_ISR)
+CH_FAST_IRQ_HANDLER(USBUART_Reset_Handler)
 {
 #ifdef USBUART_BUS_RESET_ISR_ENTRY_CALLBACK
     USBUART_BUS_RESET_ISR_EntryCallback();
@@ -781,7 +783,7 @@ CY_ISR(USBUART_LPM_ISR)
     *
     *
     ***************************************************************************/
-    CY_ISR(USBUART_ARB_ISR)
+CH_FAST_IRQ_HANDLER(USBUART_Arb_Handler)
     {
         uint8 arbIntrStatus;
         uint8 epStatus;

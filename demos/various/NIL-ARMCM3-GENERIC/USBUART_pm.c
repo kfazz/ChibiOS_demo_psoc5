@@ -12,7 +12,7 @@
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
 *******************************************************************************/
-
+#include "ch.h"
 #include "USBUART_pvt.h"
 #include "USBUART_Dp.h"
 #include "cyapicallbacks.h"
@@ -40,7 +40,7 @@ static USBUART_BACKUP_STRUCT  USBUART_backup;
     *  the sleep mode.
     *
     *******************************************************************************/
-    CY_ISR(USBUART_DP_ISR)
+CH_FAST_IRQ_HANDLER(USBUART_DP_Handler)
     {
     #ifdef USBUART_DP_ISR_ENTRY_CALLBACK
         USBUART_DP_ISR_EntryCallback();
