@@ -17,6 +17,8 @@
 
 #include "CyLib.h"
 
+extern uint32_t __ramvec__;
+
 
 /*******************************************************************************
 * The CyResetStatus variable is used to obtain value of RESET_SR0 register after
@@ -2123,7 +2125,8 @@ void CyEnableInts(uint32 mask)
     cyisraddress CyIntSetSysVector(uint8 number, cyisraddress address)
     {
         cyisraddress oldIsr;
-        cyisraddress *ramVectorTable = *CY_INT_VECT_TABLE;
+//        cyisraddress *ramVectorTable = *CY_INT_VECT_TABLE;
+        cyisraddress *ramVectorTable = __ramvec__;
 
         CYASSERT(number <= CY_INT_SYS_NUMBER_MAX);
 

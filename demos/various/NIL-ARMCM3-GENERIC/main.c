@@ -2,11 +2,26 @@
 #include "psoc_registers.h"
 #include "psoc_regmacro.h"
 #include "psoc_support.h"
+#include <project.h>
+#include "stdio.h"
 
 
 #if !defined(SYSTEM_CLOCK)
 #define SYSTEM_CLOCK 48000000U
 #endif
+
+#define USBFS_DEVICE    (0u)
+
+//Ram copy of vector table
+__attribute__ ((section(".ramvectors")))
+uint32_t _vectors_relocated[CORTEX_NUM_VECTORS];
+
+/* The buffer size is equal to the maximum packet size of the IN and OUT bulk
+* endpoints.
+*/
+#define USBUART_BUFFER_SIZE (64u)
+#define LINE_STR_LENGTH     (20u)
+
 
 /*
  * @brief   System Timer handler.
@@ -25,19 +40,27 @@ CH_IRQ_HANDLER(SysTick_Handler) {
 static uint32_t seconds_counter;
 static uint32_t minutes_counter;
 
+static uint16 count;
+static uint8 buffer[USBUART_BUFFER_SIZE];
+
+
 /*
  * Seconds counter thread.
  */
+
+
 static THD_WORKING_AREA(waThread1, 128);
 static THD_FUNCTION(Thread1, arg) {
 
   (void)arg;
-
   while (true) {
     chThdSleepMilliseconds(1000);
+    //printf("Seconds Count: %d", seconds_counter);
     seconds_counter++;
   }
 }
+
+
 
 /*
  * Minutes counter thread.
@@ -46,22 +69,12 @@ static THD_WORKING_AREA(waThread2, 128);
 static THD_FUNCTION(Thread2, arg) {
 
   (void)arg;
-    bool led = false;
-
-    // Note: This is a busy wait loop - ok for a demo but not for product code.
     while(true)
     {
-      if (led)
-     {
-      //  if (Read_Pin_Raw(REG_PRT2_PC2))
-	led = false;
-            Clear_Pin(REG_PRT2_PC1);
-     }
-        else
-	led = true;
-            Set_Pin(REG_PRT2_PC1);
-    //chThdSleepSeconds(1);
-    chThdSleepMilliseconds(10);
+    Clear_Pin(REG_PRT2_PC1);
+    chThdSleepSeconds(1);
+    Set_Pin(REG_PRT2_PC1);
+    chThdSleepSeconds(1);
   }
 }
 
@@ -73,56 +86,28 @@ THD_TABLE_BEGIN
   THD_TABLE_THREAD(1, "counter2", waThread2, Thread2, NULL)
 THD_TABLE_END
 
-
-
-#include <project.h>
-#include "stdio.h"
-
-#if defined (__GNUC__)
-    /* Add an explicit reference to the floating point printf library */
-    /* to allow usage of the floating point conversion specifiers. */
-    /* This is not linked in by default with the newlib-nano library. */
-    asm (".global _printf_float");
-#endif
-
-#define USBFS_DEVICE    (0u)
-
-/* The buffer size is equal to the maximum packet size of the IN and OUT bulk
-* endpoints.
-*/
-#define USBUART_BUFFER_SIZE (64u)
-#define LINE_STR_LENGTH     (20u)
-
-char8* parity[] = {"None", "Odd", "Even", "Mark", "Space"};
-char8* stop[]   = {"1", "1.5", "2"};
-
 int main()
 {
-    uint16 count;
-    uint8 buffer[USBUART_BUFFER_SIZE];
 
+  cyfitter_cfg();
 
   /*
    * Hardware initialization, in this simple demo just the systick timer is
    * initialized.
    */
 
-//  CySysTickSetClockSource(CY_SYS_SYST_CSR_CLK_SRC_SYSCLK);
-//  CySysTickStart();
- // CySysTickSetCallback(0, SysTick_Handler(void))
   SysTick->LOAD = SYSTEM_CLOCK / 1000 - (systime_t)1;
   SysTick->VAL = (uint32_t)0;
   SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk |
                   SysTick_CTRL_TICKINT_Msk;
 
+  /* IRQ enabled.*/
+  NVIC_SetPriority(SysTick_IRQn, 38);
 
 
-
-
-    CyGlobalIntEnable;
 
     /* Start USBFS operation with 5-V operation. */
-//    USBUART_Start(USBFS_DEVICE, USBUART_5V_OPERATION);
+    USBUART_Start(USBFS_DEVICE, USBUART_5V_OPERATION);
 
 
     // LED: OUT: Port 6.0 Strong, initially OFF
@@ -142,13 +127,12 @@ int main()
    *   RTOS is active.
    */
   chSysInit();
+    CyGlobalIntEnable;
+
 
 while(1)
-{}
+{
 
-#if 0
-    for(;;)
-    {
         /* Host can send double SET_INTERFACE request. */
         if (0u != USBUART_IsConfigurationChanged())
         {
@@ -175,6 +159,7 @@ while(1)
                     /* Wait until component is ready to send data to host. */
                     while (0u == USBUART_CDCIsReady())
                     {
+//    chThdSleepMilliseconds(10);
                     }
 
                     /* Send data back to host. */
@@ -190,6 +175,7 @@ while(1)
                         /* Wait until component is ready to send data to PC. */
                         while (0u == USBUART_CDCIsReady())
                         {
+  //  chThdSleepMilliseconds(10);
                         }
 
                         /* Send zero-length packet to PC. */
@@ -198,8 +184,8 @@ while(1)
                 }
             }
         }
-    }
-#endif
+
+  }
 }
 
 

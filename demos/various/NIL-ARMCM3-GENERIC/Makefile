@@ -115,7 +115,6 @@ CSRC = $(ALLCSRC) \
        $(TESTSRC) \
        CyLib.c \
        cyfitter_cfg.c \
-#       Cm3Start.c \
        USBUART.c \
        USBUART_audio.c \
        USBUART_cls.c \

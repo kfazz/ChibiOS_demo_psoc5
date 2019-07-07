@@ -20,7 +20,7 @@
 
 MEMORY
 {
-        flash0 (rx) : ORIGIN = 0x0, LENGTH = 262144
+    flash0 (rx) : ORIGIN = 0x0, LENGTH = 262144
     flash1  : org = 0x00000000, len = 0
     flash2  : org = 0x00000000, len = 0
     flash3  : org = 0x00000000, len = 0
@@ -28,7 +28,7 @@ MEMORY
     flash5  : org = 0x00000000, len = 0
     flash6  : org = 0x00000000, len = 0
     flash7  : org = 0x00000000, len = 0
-        ram0 (rwx) : ORIGIN = 0x20000000 - (65536 / 2), LENGTH = 65536
+    ram0 (rwx) : ORIGIN = 0x20000000 - (65536 / 2), LENGTH = 65536
     ram1    : org = 0x00000000, len = 0
     ram2    : org = 0x00000000, len = 0
     ram3    : org = 0x00000000, len = 0
@@ -60,6 +60,10 @@ REGION_ALIAS("RODATA_FLASH_LMA", flash0);
 /* Flash region to be used for various.*/
 REGION_ALIAS("VARIOUS_FLASH", flash0);
 REGION_ALIAS("VARIOUS_FLASH_LMA", flash0);
+
+/* Flash region to be used for exception vectors.*/
+REGION_ALIAS("VECTORS_RAM", flash0);
+REGION_ALIAS("VECTORS_RAM_LMA", flash0);
 
 /* Flash region to be used for RAM(n) initialization data.*/
 REGION_ALIAS("RAM_INIT_FLASH_LMA", flash0);

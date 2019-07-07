@@ -16,6 +16,18 @@
 
 SECTIONS
 {
+    .ramvectors (NOLOAD) : ALIGN(8)
+    {
+/* 
+     __cy_region_start_ram = .;
+      KEEP(*(.ramvectors))
+*/
+    PROVIDE(__ramvec__ = .);
+        *(.ramvectors);
+    } > VECTORS_RAM AT > VECTORS_RAM_LMA
+
+
+
     .data : ALIGN(4)
     {
         PROVIDE(_textdata = LOADADDR(.data));
