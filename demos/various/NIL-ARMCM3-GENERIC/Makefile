@@ -88,6 +88,7 @@ DEPDIR   := ./.dep
 include $(CHIBIOS)/os/license/license.mk
 # Startup files.
 #include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_stm32f4xx.mk
+include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_psoc5lp.mk
 
 # HAL-OSAL files (optional).
 #include $(CHIBIOS)/os/hal/hal.mk
@@ -114,7 +115,7 @@ CSRC = $(ALLCSRC) \
        $(TESTSRC) \
        CyLib.c \
        cyfitter_cfg.c \
-       Cm3Start.c \
+#       Cm3Start.c \
        USBUART.c \
        USBUART_audio.c \
        USBUART_cls.c \
