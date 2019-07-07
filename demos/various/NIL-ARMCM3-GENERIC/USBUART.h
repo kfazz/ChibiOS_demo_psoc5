@@ -16,6 +16,8 @@
 #if !defined(CY_USBFS_USBUART_H)
 #define CY_USBFS_USBUART_H
 
+#define CYDEV_CHIP_DIE_PANTHER 0
+
 #include "cydevice_trm.h"
 #include "cyfitter.h"
 #include "cytypes.h"

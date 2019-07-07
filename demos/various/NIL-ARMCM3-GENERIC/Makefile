@@ -87,7 +87,8 @@ DEPDIR   := ./.dep
 # Licensing files.
 include $(CHIBIOS)/os/license/license.mk
 # Startup files.
-include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_stm32f4xx.mk
+#include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_stm32f4xx.mk
+
 # HAL-OSAL files (optional).
 #include $(CHIBIOS)/os/hal/hal.mk
 #include $(CHIBIOS)/os/hal/ports/STM32/STM32F4xx/platform.mk
@@ -105,7 +106,7 @@ include $(CHIBIOS)/tools/mk/autobuild.mk
 
 # Define linker script file here
 #LDSCRIPT= $(STARTUPLD)/STM32F407xG.ld
-LDSCRIPT= $(STARTUPLD)/psoc5.ld
+LDSCRIPT= ../../../os/common/startup/ARMCMx/compilers/GCC/ld/psoc5.ld
 
 # C sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
@@ -114,6 +115,21 @@ CSRC = $(ALLCSRC) \
        CyLib.c \
        cyfitter_cfg.c \
        Cm3Start.c \
+       USBUART.c \
+       USBUART_audio.c \
+       USBUART_cls.c \
+       USBUART_cdc.c \
+       USBUART_drv.c \
+       USBUART_msc.c \
+       USBUART_boot.c \
+       USBUART_descr.c \
+       USBUART_episr.c \
+       USBUART_pm.c \
+       USBUART_Dm.c \
+       USBUART_Dp.c \
+       USBUART_hid.c \
+       USBUART_std.c \
+       USBUART_vnd.c \
        main.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global

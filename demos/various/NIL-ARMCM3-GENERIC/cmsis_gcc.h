@@ -25,6 +25,8 @@
 #ifndef __CMSIS_GCC_H
 #define __CMSIS_GCC_H
 
+#define __ARM_FEATURE_DSP 0
+
 /* ignore some GCC warnings */
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
