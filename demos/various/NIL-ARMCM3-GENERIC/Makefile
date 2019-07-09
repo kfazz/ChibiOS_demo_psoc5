@@ -114,7 +114,9 @@ LDSCRIPT= ../../../os/common/startup/ARMCMx/compilers/GCC/ld/psoc5.ld
 CSRC = $(ALLCSRC) \
        $(TESTSRC) \
        CyLib.c \
+       delay_funcs.c \
        cyfitter_cfg.c \
+       systeminit.c \
        USBUART.c \
        USBUART_audio.c \
        USBUART_cls.c \
@@ -132,13 +134,17 @@ CSRC = $(ALLCSRC) \
        USBUART_vnd.c \
        main.c
 
+#       cyfitter_cfg.c \
+
+
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
 CPPSRC = $(ALLCPPSRC)
 
 # List ASM source files here.
 ASMSRC = $(ALLASMSRC) \
-        CyBootAsmGnu.s
+        CyBootAsmGnu.s \
+        delay.s
 
 # List ASM with preprocessor source files here.
 ASMXSRC = $(ALLXASMSRC)
